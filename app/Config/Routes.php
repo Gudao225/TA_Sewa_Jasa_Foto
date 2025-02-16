@@ -12,4 +12,8 @@ $routes->get('login', 'Auth::login');
 $routes->post('login_process', 'Auth::login_process');
 $routes->get('logout', 'Auth::logout');
 
-$routes->get('sewa', 'Sewa::index');
+// Tambahkan filter auth untuk route sewa
+$routes->group('sewa', ['filter' => 'auth'], function($routes) {
+    $routes->get('/', 'Sewa::index');
+    $routes->post('process', 'Sewa::process');
+});
