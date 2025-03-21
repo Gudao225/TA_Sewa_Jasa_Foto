@@ -1,11 +1,18 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\ServiceModel;
 
 class Home extends BaseController
 {
-    public function index(): string
+    public function index()
     {
-        return view('home');
+        $serviceModel = new ServiceModel();
+        $data = [
+            'title' => 'Selamat Datang di Studio Foto Kami',
+            'services' => $serviceModel->findAll()
+        ];
+        
+        return view('home', $data);
     }
 }

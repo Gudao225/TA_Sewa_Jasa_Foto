@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +16,25 @@
   <link rel="stylesheet" href="<?=base_url()?>/template/assets/css/style.css">
   <link rel="stylesheet" href="<?=base_url()?>/template/assets/css/components.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    .section {
+        padding: 80px 0;
+    }
+    .hero {
+        padding: 100px 0;
+        margin-top: -80px;
+    }
+    .section-header {
+        margin-bottom: 60px;
+    }
+    .card {
+        transition: transform 0.3s;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+  </style>
 
 </head>
 
