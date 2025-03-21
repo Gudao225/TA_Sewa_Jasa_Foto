@@ -28,8 +28,18 @@ $routes->group('orders', ['filter' => 'auth'], function($routes) {
 // Admin routes (with admin filter)
 $routes->group('admin', ['filter' => 'admin'], function($routes) {
     $routes->get('/', 'Admin::index');
+    
+    // Orders management
     $routes->get('orders', 'Admin::orders');
     $routes->get('order/(:num)', 'Admin::order_detail/$1');
     $routes->post('update_status', 'Admin::update_status');
     $routes->post('send_message', 'Admin::send_message');
+    
+    // Services management (CRUD)
+    $routes->get('services', 'Admin::services');
+    $routes->get('add_service', 'Admin::add_service');
+    $routes->post('save_service', 'Admin::save_service');
+    $routes->get('edit_service/(:num)', 'Admin::edit_service/$1');
+    $routes->post('update_service/(:num)', 'Admin::update_service/$1');
+    $routes->get('delete_service/(:num)', 'Admin::delete_service/$1');
 });

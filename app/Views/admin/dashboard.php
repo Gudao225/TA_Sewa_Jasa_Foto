@@ -71,13 +71,22 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card">
+        <div class="card">
                 <div class="card-header">
-                    <h4>Manajemen Pesanan</h4>
+                    <h4>Menu Cepat</h4>
                 </div>
                 <div class="card-body">
-                    <div class="buttons">
-                        <a href="<?= site_url('admin/orders') ?>" class="btn btn-primary">Lihat Semua Pesanan</a>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="<?= site_url('admin/orders') ?>" class="btn btn-primary btn-lg btn-block mb-4">
+                                <i class="fas fa-tasks"></i> Kelola Pesanan
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="<?= site_url('admin/services') ?>" class="btn btn-info btn-lg btn-block mb-4">
+                                <i class="fas fa-list"></i> Kelola Layanan
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

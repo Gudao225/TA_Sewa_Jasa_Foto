@@ -153,4 +153,130 @@ class Admin extends BaseController
             return redirect()->back()->with('error', 'Gagal mengirim pesan: ' . $e->getMessage());
         }
     }
+
+    // ===== CRUD Services =====
+
+    // Menampilkan daftar layanan
+    public function services()
+    {
+        $services = $this->serviceModel->findAll();
+        
+        $data = [
+            'title' => 'Kelola Layanan',
+            'services' => $services
+        ];
+        
+        return view('admin/services', $data);
+    }
+    
+    // Menampilkan form tambah layanan
+    public function add_service()
+    {
+        $data = [
+            'title' => 'Tambah Layanan Baru',
+            'validation' => \Config\Services::validation()
+        ];
+        
+        return view('admin/add_service', $data);
+    }
+    
+    // Proses menyimpan layanan baru
+    public function save_service()
+    {
+        // Validasi input
+        $rules = [
+            'name' => 'required|min_length[3]|max_length[100]',
+            'description' => 'required|min_length[10]',
+            'price' => 'required|numeric|greater_than[0]'
+        ];
+        
+        if (!$this->validate($rules)) {
+            return redirect()->back()
+                             ->withInput()
+                             ->with('errors', $this->validator->getErrors());
+        }
+        
+        // Siapkan data
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'description' => $this->request->getPost('description'),
+            'price' => $this->request->getPost('price')
+        ];
+        
+        // Simpan data
+        try {
+            $this->serviceModel->insert($data);
+            return redirect()->to('admin/services')->with('success', 'Layanan berhasil ditambahkan');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menambahkan layanan: ' . $e->getMessage());
+        }
+    }
+    
+    // Menampilkan form edit layanan
+    public function edit_service($id)
+    {
+        $service = $this->serviceModel->find($id);
+        
+        if (!$service) {
+            return redirect()->to('admin/services')->with('error', 'Layanan tidak ditemukan');
+        }
+        
+        $data = [
+            'title' => 'Edit Layanan',
+            'service' => $service,
+            'validation' => \Config\Services::validation()
+        ];
+        
+        return view('admin/edit_service', $data);
+    }
+    
+    // Proses update layanan
+    public function update_service($id)
+    {
+        // Validasi input
+        $rules = [
+            'name' => 'required|min_length[3]|max_length[100]',
+            'description' => 'required|min_length[10]',
+            'price' => 'required|numeric|greater_than[0]'
+        ];
+        
+        if (!$this->validate($rules)) {
+            return redirect()->back()
+                             ->withInput()
+                             ->with('errors', $this->validator->getErrors());
+        }
+        
+        // Siapkan data
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'description' => $this->request->getPost('description'),
+            'price' => $this->request->getPost('price')
+        ];
+        
+        // Update data
+        try {
+            $this->serviceModel->update($id, $data);
+            return redirect()->to('admin/services')->with('success', 'Layanan berhasil diperbarui');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal memperbarui layanan: ' . $e->getMessage());
+        }
+    }
+    
+    // Proses delete layanan
+    public function delete_service($id)
+    {
+        // Periksa apakah layanan digunakan dalam pesanan
+        $usedInOrders = $this->orderModel->where('service_id', $id)->countAllResults();
+        
+        if ($usedInOrders > 0) {
+            return redirect()->to('admin/services')->with('error', 'Layanan tidak dapat dihapus karena masih digunakan dalam pesanan');
+        }
+        
+        try {
+            $this->serviceModel->delete($id);
+            return redirect()->to('admin/services')->with('success', 'Layanan berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->to('admin/services')->with('error', 'Gagal menghapus layanan: ' . $e->getMessage());
+        }
+    }
 }

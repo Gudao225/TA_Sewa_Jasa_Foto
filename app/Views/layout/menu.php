@@ -9,6 +9,7 @@
         <li class="menu-header">Admin Menu</li>
         <li><a class="nav-link" href="<?= base_url('admin') ?>"><i class="fas fa-user-cog"></i> <span>Dashboard Admin</span></a></li>
         <li><a class="nav-link" href="<?= base_url('admin/orders') ?>"><i class="fas fa-tasks"></i> <span>Kelola Pesanan</span></a></li>
+        <li><a class="nav-link" href="<?= base_url('admin/services') ?>"><i class="fas fa-list"></i> <span>Kelola Layanan</span></a></li>
     <?php endif; ?>
 
     <li><a class="nav-link" href="<?= base_url('logout') ?>"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
